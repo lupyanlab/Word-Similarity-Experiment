@@ -3,17 +3,19 @@ const express = require('express');
 const path = require("path");
 const PythonShell = require('python-shell');
 const fs = require('fs');
+const csvWriter = require("csv-write-stream");
 const _ = require('lodash');
 const bodyParser = require('body-parser');
 const csv = require('csvtojson');
 
 
 let app = express();
+let writer = csvWriter({sendHeaders: false});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.set('port', (process.env.PORT || 8080))
+app.set('port', (process.env.PORT || 7070))
 
 // For rending HTML
 app.get('/', function (req, res) {
@@ -35,13 +37,13 @@ app.post('/trials', function (req, res) {
 
   // Runs genTrial python script with subjCode arg
   PythonShell.defaultOptions = { args: [subjCode] };
-  PythonShell.run('TYP_genTrials_v2.py', function (err, results) {
+  PythonShell.run('generateTrials.py', function (err, results) {
     if (err) throw err;
     let trials = [];
 
     // Reads generated trial csv file
     csv()
-    .fromFile('trials/trials_' + subjCode + '.csv')
+    .fromFile('trials/' + subjCode + '_trials.csv')
     // Push all trials to array
     .on('json',(jsonObj)=>{
       trials.push(jsonObj);
@@ -52,7 +54,7 @@ app.post('/trials', function (req, res) {
         res.send({success: false});
         throw error;
       }
-      res.send({success: results[0], trials: trials});
+      res.send({success: true, trials: trials});
       console.log('finished parsing csv')
     })
     
@@ -63,24 +65,18 @@ app.post('/trials', function (req, res) {
 app.post('/data', function (req, res) {
   console.log('data post request received');
 
-  // Parses the trial response data to tab separated txt line
+  // Parses the trial response data to csv
   let response = req.body;
-  let dataString = _.map(response, (value) => {
-    return value + '';
-  }).join('\t')+'\n';
-
-  // Append response string to txt file
-  let path = 'data/'+response.subjCode+'_test.txt';
-  if (!fs.existsSync(path)) 
-    fs.openSync(path, 'a');
+  let path = 'data/'+response.subjCode+'_data.csv';
+  let headers = Object.keys(response);
+  if (!fs.existsSync(path))
+    writer = csvWriter({ headers: headers});
   else
-    console.log("file exists");
-  fs.appendFile(path, dataString, function (err) {
-      if (err) {
-        res.send({success: false});
-        throw err;
-      }
-      res.send({success: true});
-    } )
-})
+    writer = csvWriter({sendHeaders: false});
 
+  writer.pipe(fs.createWriteStream(path, {flags: 'a'}));
+  writer.write(response);
+  writer.end();
+
+  res.send({success: true});
+})
