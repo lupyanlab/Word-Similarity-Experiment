@@ -78,8 +78,8 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
             <img src="stims/${trial.pic2}.jpg" alt="${trial.pic2}" height="200px" align="right" style="max-width:400px" />
             `,
             is_html: true,
-            prompt: `<div style="position:absolute;bottom:0;margin-left:-150px;left:50%;">
-            <h1 style="text-align:center;">SUCKERBERGS!!!</h1>
+            prompt: `<div style="position:absolute;bottom:0;width:100%;">
+            <h1 style="text-align:center;">How similar in appearance are these two drawings?</h1>
             </div>`,
             choices: ['1', '2', '3', '4', '5', '6', '7'],
             on_finish: function (data) {
