@@ -66,8 +66,7 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
         let pictureTrial = {
             type: 'single-stim',
             stimulus: `<img src="stims/${trial.pic1}.jpg" alt="${trial.pic1}" height="200px" align="left" style="max-width:400px"/> 
-            <img src="stims/${trial.pic2}.jpg" alt="${trial.pic2}" height="200px" align="right" style="max-width:400px" />
-            `,
+            <img src="stims/${trial.pic2}.jpg" alt="${trial.pic2}" height="200px" align="right" style="max-width:400px" />`,
             is_html: true,
             prompt: `<div style="position:absolute;bottom:0;width:100%;">
             <h1 style="text-align:center;line-height:1.5;">How similar in appearance are these two drawings?</h1>
@@ -75,9 +74,7 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
             </div>`,
             choices: ['1', '2', '3', '4', '5', '6', '7'],
             on_finish: function (data) {
-                
-                // Check for match
-                response.response = String.fromCharCode(data.key_press);   // Keeps only digits
+                response.response = String.fromCharCode(data.key_press);
                 response.rt = data.rt;
                 response.expTimer = data.time_elapsed / 1000;
 

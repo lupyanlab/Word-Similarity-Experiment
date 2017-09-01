@@ -8,7 +8,6 @@ const _ = require('lodash');
 const bodyParser = require('body-parser');
 const csv = require('csvtojson');
 
-
 let app = express();
 let writer = csvWriter({sendHeaders: false});
 
@@ -17,9 +16,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 app.set('port', (process.env.PORT || 7070))
 
-// For rending HTML
+// For Rendering HTML
 app.get('/', function (req, res) {
-
   res.sendFile(path.join(__dirname + '/public/index.html'));
 })
 app.use(express.static(__dirname + '/public'));
@@ -43,7 +41,7 @@ app.post('/trials', function (req, res) {
 
     // Reads generated trial csv file
     csv()
-    .fromFile('trials/' + subjCode + '_trials.csv')
+    .fromFile('trials/'+subjCode+'_trials.csv')
     // Push all trials to array
     .on('json',(jsonObj)=>{
       trials.push(jsonObj);
@@ -57,7 +55,6 @@ app.post('/trials', function (req, res) {
       res.send({success: true, trials: trials});
       console.log('finished parsing csv')
     })
-    
   });
 })
 
