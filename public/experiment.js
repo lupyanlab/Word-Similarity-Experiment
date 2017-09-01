@@ -1,13 +1,6 @@
 // Function Call to Run the experiment
-function runExperiment(trials, subjCode, workerId, assignmentId, hitId, whichyes) {
-    let whichno = whichyes=="z" ? "/": "z";
-    let whichyesKey = whichyes=="z" ? 90 : 191;
-    let whichnoKey = whichyes=="z" ? 191 : 90;
+function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
     let timeline = [];
-
-    // Sounds to play for audio trials
-    let bleep = new Audio('stimuli/sounds/bleep.wav');
-    let buzz = new Audio('stimuli/sounds/buzz.wav');
 
     // Data that is collected for jsPsych
     let turkInfo = jsPsych.turk.turkInfo();
@@ -51,14 +44,13 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId, whichyes
             `<p>Please concentrate and see how quickly you can answer the questions. If you make a mistake,
             you will hear a buzzing sound. If you are making many mistakes, you might be rushing. Let the
             experimenter know when you have completed reading these instructions.
-            </p> ${continue_space}`,
-
-            `<p>Press the '${whichyes}' key for 'Yes' and the '${whichno}' key for 'No'.
             </p> ${continue_space}`
         ]
     };
 
     timeline.push(instructions);
+
+    let trial_number = 1;
 
     // Pushes each audio trial to timeline
     _.forEach(trials, (trial) => {
@@ -66,68 +58,36 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId, whichyes
         // Empty Response Data to be sent to be collected
         let response = {
             subjCode: subjCode,
-            seed: '101',    //seed can be changed in TYP_genTrials.py file
-            whichYes: 'z',
-            data: "subject",
-            initials: 'gl',
-            cueCategory: trial.cueCategory,
-            cueType: trial.cueType,
-            cueAnimate: trial.cueAnimate,
-            picCategory: trial.picCategory,
-            picType: trial.picType,
-            picAnimate: trial.picAnimate,
-            picFile: trial.picFile,
-            soa : trial.soa,
-            isMatch: trial.isMatch,
-            sameAnimacy: trial.sameAnimacy,
-            block: trial.block,
-            whichPart: 'test',
-            curTrialIndex: 0,
-            expTimer : -1,
-            isRight: -1,
-            rt: -1,
             workerId: workerId,
             assignmentId: assignmentId,
             hitId: hitId,
-            screenRes: screen.width+'x'+screen.height,
-            windowSize: screen.availWidth+'x'+screen.availHeight,
-            whichyes: whichyes
+            pic1: trial.pic1,
+            pic2: trial.pic2,
+            country1: trial.country1 || 'unspecified',
+            country2: trial.country2 || 'unspecified',
+            expTimer : -1,
+            response: -1,
+            trial_number: trial_number++,
+            rt: -1,
         }	
-
-        // Audio plays for its duration plus variable delay
-        let audioTrial = {
-            type: 'single-audio',
-            stimulus: 'stimuli/sounds/' + trial.soundFile+'.wav',
-            timing_response: 600 + Number(trial.soa) *1000
-        }
-        
-        timeline.push(audioTrial);
 
         // Picture Trial
         let pictureTrial = {
-            type: 'multi-stim-multi-response',
-            stimuli: ['stimuli/pictures/'+trial.picFile+'.jpg'],
-            choices: [[90,191]],
-            timing_stim: [-1],
-            timing_post_trial: 1000,
+            type: 'single-stim',
+            stimulus: `<img src="stims/${trial.pic1}.jpg" alt="${trial.pic1}" height="200px" align="left" style="max-width:400px"/> 
+            <img src="stims/${trial.pic2}.jpg" alt="${trial.pic2}" height="200px" align="right" style="max-width:400px" />
+            `,
+            is_html: true,
+            prompt: `<div style="position:absolute;bottom:0;margin-left:-150px;left:50%;">
+            <h1 style="text-align:center;">SUCKERBERGS!!!</h1>
+            </div>`,
+            choices: ['1', '2', '3', '4', '5', '6', '7'],
             on_finish: function (data) {
                 
                 // Check for match
-                let key = data.key_press.replace(/\D+/g, '');   // Keeps only digits
-                if ((trial.isMatch == 1 && key == whichyesKey) || (trial.isMatch == 0 && key == whichnoKey)) {
-                    bleep.play();
-                    response.isRight = '1';
-                }
-                else{
-                    buzz.play();
-                    response.isRight ='0';
-                }
-
-                response.rt = data.rt.replace(/\D+/g, '');
+                response.response = String.fromCharCode(data.key_press);   // Keeps only digits
+                response.rt = data.rt;
                 response.expTimer = data.time_elapsed / 1000;
-
-                response.screenRes = screen.width+'x'+screen.height,
-                response.windowSize = $(window).width()+'x'+$(window).height()
 
                 // POST response data to server
                 $.ajax({
@@ -149,11 +109,10 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId, whichyes
         MTurk to get paid. If you have any questions or comments, please email jsulik@wisc.edu.`
 
 
-
     jsPsych.init({
         default_iti: 0,
         timeline: timeline,
-        fullscreen: true,
+        // fullscreen: true,
         on_finish: function (data) {
             jsPsych.endExperiment(endmessage);
         }
