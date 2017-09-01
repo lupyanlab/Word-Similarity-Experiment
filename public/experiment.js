@@ -79,7 +79,8 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
             `,
             is_html: true,
             prompt: `<div style="position:absolute;bottom:0;width:100%;">
-            <h1 style="text-align:center;">How similar in appearance are these two drawings?</h1>
+            <h1 style="text-align:center;line-height:1.5;">How similar in appearance are these two drawings?</h1>
+            <img src="img/scale.png" width="100%" />
             </div>`,
             choices: ['1', '2', '3', '4', '5', '6', '7'],
             on_finish: function (data) {
