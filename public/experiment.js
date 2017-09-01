@@ -18,7 +18,7 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
     let welcome_block = {
         type: "text",
         cont_key: ' ',
-        text: `<h1>TYP_v2</h1>
+        text: `<h1>Image Simularity</h1>
         <p>Welcome to the experiment. Thank you for participating! Press SPACE to begin.</p>`
     };
 
@@ -31,20 +31,11 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
         key_forward: ' ',
         key_backward: 8,
         pages: [
-            `<p>In this experiment, you will hear various words or sounds - such as the word 'cat' or
-            the sound of a cat meowing - and see pictures of those animals or objects. Sometimes the sound you hear will match the picture. For example, you'll hear a car honking 
-            and then see a picture of a car. Other times, the picture you see will not match the sound.
+            `<p>In this experiment, you will see two drawings and rate their simularity from 1 to 7.
             </p> ${continue_space}`,
 
-            `<p>Your task is to decide as quickly as possible if the word or sound you hear matches the
-            picture you see. For example, if you hear the word 'bird' and see a picture of a bird, you
-            will press the button for 'Yes', but if you see a picture of a dog, you will press the button
-            for 'No</p> ${continue_space}`,
-
-            `<p>Please concentrate and see how quickly you can answer the questions. If you make a mistake,
-            you will hear a buzzing sound. If you are making many mistakes, you might be rushing. Let the
-            experimenter know when you have completed reading these instructions.
-            </p> ${continue_space}`
+            `<p>Use the 1-7 number keys to select your choice.
+            </p> ${continue_space}`,
         ]
     };
 
