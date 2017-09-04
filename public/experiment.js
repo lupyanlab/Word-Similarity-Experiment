@@ -70,8 +70,29 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
             is_html: true,
             prompt: `<div style="position:absolute;bottom:0;width:100%;">
             <h1 style="text-align:center;line-height:1.5;">How similar in appearance are these two drawings?</h1>
-            <img src="img/scale.png" width="100%" />
-            </div>`,
+            <canvas id="canvas"></canvas>
+            </div>
+            <script>
+            var canvas = document.getElementById('canvas');
+            fitToContainer(canvas);
+
+            function fitToContainer(canvas){
+            // Make it visually fill the positioned parent
+            canvas.style.width ='100%';
+            canvas.style.height='30%';
+            // ...then set the internal size to match
+            canvas.width  = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            }
+            var context = canvas.getContext('2d');
+
+            var scaleImg = new Image();
+            scaleImg.src = 'img/scale.png';
+            scaleImg.onload = function () {
+                context.drawImage(scaleImg, 0, 0,canvas.width,canvas.height);
+            }
+            </script>
+            `,
             choices: ['1', '2', '3', '4', '5', '6', '7'],
             on_finish: function (data) {
                 response.response = String.fromCharCode(data.key_press);
