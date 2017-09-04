@@ -75,10 +75,48 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
             prompt: `<div style="position:absolute;bottom:0;width:100%;">
             <h1 style="text-align:center;line-height:1.5;">How similar in appearance are these two drawings?</h1>
                 <div id="container">
-                    <img id="scale" src="img/scale.png" width="100%" />
+                    <img id="scale" src="img/scale.jpg" width="100%" />
                     <canvas id="canvas"></canvas>
                 </div>
-            </div>`,
+            </div>
+            <script>
+                var canvas = document.getElementById('canvas');
+                canvas.width = 800;
+                canvas.height = 138.97;
+                var ctx = canvas.getContext('2d');
+                ctx.fillStyle = "red";
+                ctx.strokeStyle = "black";
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.arc(canvas.width/3.85,canvas.height/5,15,0,2*Math.PI);
+                ctx.stroke();
+                ctx.closePath();
+                ctx.beginPath();
+                ctx.arc(canvas.width/2.96,canvas.height/5,15,0,2*Math.PI);
+                ctx.stroke();
+                ctx.closePath();
+                ctx.beginPath();
+                ctx.arc(canvas.width/2.4,canvas.height/5,15,0,2*Math.PI);
+                ctx.stroke();
+                ctx.closePath();
+                ctx.beginPath();
+                ctx.arc(canvas.width/2,canvas.height/5,15,0,2*Math.PI);
+                ctx.stroke();
+                ctx.closePath();
+                    ctx.beginPath();
+                ctx.arc(canvas.width/1.74,canvas.height/5,15,0,2*Math.PI);
+                ctx.stroke();
+                ctx.closePath();
+                ctx.beginPath();
+                ctx.arc(canvas.width/1.54,canvas.height/5,15,0,2*Math.PI);
+                ctx.stroke();
+                ctx.closePath();
+                ctx.beginPath();
+                ctx.arc(canvas.width/1.37,canvas.height/5,15,0,2*Math.PI);
+                ctx.stroke();
+                ctx.closePath();
+            </script>`
+                    ,
             choices: ['1', '2', '3', '4', '5', '6', '7'],
             on_finish: function (data) {
                 response.response = String.fromCharCode(data.key_press);
@@ -108,7 +146,7 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
             prompt: function () { 
                 return `<div style="position:absolute;bottom:0;width:100%;">
                     <h1 style="text-align:center;line-height:1.5;">How similar in appearance are these two drawings?</h1>
-                        <img id="scale" src="img/scale.png" width="100%" />
+                        <img id="scale" src="img/scale.jpg" width="100%" />
                          <canvas id="canvas"></canvas>
                     </div>
                     <script>
@@ -116,6 +154,37 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
                         canvas.width = 800;
                         canvas.height = 138.97;
                         var ctx = canvas.getContext('2d');
+                        ctx.fillStyle = "red";
+                        ctx.strokeStyle = "black";
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                ctx.arc(canvas.width/3.85,canvas.height/5,15,0,2*Math.PI);
+                ctx.stroke();
+                ctx.closePath();
+                ctx.beginPath();
+                ctx.arc(canvas.width/2.96,canvas.height/5,15,0,2*Math.PI);
+                ctx.stroke();
+                ctx.closePath();
+                ctx.beginPath();
+                ctx.arc(canvas.width/2.4,canvas.height/5,15,0,2*Math.PI);
+                ctx.stroke();
+                ctx.closePath();
+                ctx.beginPath();
+                ctx.arc(canvas.width/2,canvas.height/5,15,0,2*Math.PI);
+                ctx.stroke();
+                ctx.closePath();
+                    ctx.beginPath();
+                ctx.arc(canvas.width/1.74,canvas.height/5,15,0,2*Math.PI);
+                ctx.stroke();
+                ctx.closePath();
+                ctx.beginPath();
+                ctx.arc(canvas.width/1.54,canvas.height/5,15,0,2*Math.PI);
+                ctx.stroke();
+                ctx.closePath();
+                ctx.beginPath();
+                ctx.arc(canvas.width/1.37,canvas.height/5,15,0,2*Math.PI);
+                ctx.stroke();
+                ctx.closePath();
 
                         switch(${response.response}) {
                     case 1:
@@ -128,7 +197,7 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
                     // 2
                     case 2:
                         ctx.beginPath();
-                        ctx.arc(canvas.width/3,canvas.height/5,20,0,2*Math.PI);
+                        ctx.arc(canvas.width/2.96,canvas.height/5,15,0,2*Math.PI);
                         ctx.stroke();
                         ctx.fill();
                         break;
