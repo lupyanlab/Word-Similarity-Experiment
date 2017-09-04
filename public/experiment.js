@@ -1,6 +1,6 @@
 // Function Call to Run the experiment
 function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
-    let timeline = [];
+    timeline = [];
 
     // Data that is collected for jsPsych
     let turkInfo = jsPsych.turk.turkInfo();
@@ -42,9 +42,13 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
     timeline.push(instructions);
 
     let trial_number = 1;
+    let images = []
 
     // Pushes each audio trial to timeline
     _.forEach(trials, (trial) => {
+
+        images.push('stims/'+trial.pic1+'.jpg');
+        images.push('stims/'+trial.pic2+'.jpg');
         
         // Empty Response Data to be sent to be collected
         let response = {
@@ -65,34 +69,16 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
         // Picture Trial
         let pictureTrial = {
             type: 'single-stim',
-            stimulus: `<img src="stims/${trial.pic1}.jpg" alt="${trial.pic1}" height="200px" align="left" style="max-width:400px;max-height:50%;"/> 
-            <img src="stims/${trial.pic2}.jpg" alt="${trial.pic2}" height="200px" align="right" style="max-width:400px;max-height:50%;" />`,
+            stimulus: `<img src="stims/${trial.pic1}.jpg" alt="${trial.pic1}" height="200px" align="left" style="max-width:400px"/> 
+            <img src="stims/${trial.pic2}.jpg" alt="${trial.pic2}" height="200px" align="right" style="max-width:400px" />`,
             is_html: true,
-            prompt: `<div style="position:absolute;bottom:0;width:100%;max-height:50%;">
+            prompt: `<div style="position:absolute;bottom:0;width:100%;">
             <h1 style="text-align:center;line-height:1.5;">How similar in appearance are these two drawings?</h1>
-            <canvas id="canvas"></canvas>
-            </div>
-            <script>
-            var canvas = document.getElementById('canvas');
-            fitToContainer(canvas);
-
-            function fitToContainer(canvas){
-            // Make it visually fill the positioned parent
-            canvas.style.width ='100%';
-            canvas.style.height='30%';
-            // ...then set the internal size to match
-            canvas.width  = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;
-            }
-            var context = canvas.getContext('2d');
-
-            var scaleImg = new Image();
-            scaleImg.src = 'img/scale.png';
-            scaleImg.onload = function () {
-                context.drawImage(scaleImg, 0, 0,canvas.width,canvas.height);
-            }
-            </script>
-            `,
+                <div id="container">
+                    <img id="scale" src="img/scale.png" width="100%" />
+                    <canvas id="canvas"></canvas>
+                </div>
+            </div>`,
             choices: ['1', '2', '3', '4', '5', '6', '7'],
             on_finish: function (data) {
                 response.response = String.fromCharCode(data.key_press);
@@ -112,19 +98,116 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
             }
         }
         timeline.push(pictureTrial);
+
+        // let subject view their choice
+        let breakTrial = {
+            type: 'single-stim',
+            stimulus: `<img src="stims/${trial.pic1}.jpg" alt="${trial.pic1}" height="200px" align="left" style="max-width:400px"/> 
+            <img src="stims/${trial.pic2}.jpg" alt="${trial.pic2}" height="200px" align="right" style="max-width:400px" />`,
+            is_html: true,
+            prompt: function () { 
+                return `<div style="position:absolute;bottom:0;width:100%;">
+                    <h1 style="text-align:center;line-height:1.5;">How similar in appearance are these two drawings?</h1>
+                        <img id="scale" src="img/scale.png" width="100%" />
+                         <canvas id="canvas"></canvas>
+                    </div>
+                    <script>
+                        var canvas = document.getElementById('canvas');
+                        canvas.width = 800;
+                        canvas.height = 138.97;
+                        var ctx = canvas.getContext('2d');
+
+                        switch(${response.response}) {
+                    case 1:
+                    // 1
+                        ctx.beginPath();
+                        ctx.arc(canvas.width/3.85,canvas.height/5,15,0,2*Math.PI);
+                        ctx.stroke();
+                        ctx.fill();
+                        break;
+                    // 2
+                    case 2:
+                        ctx.beginPath();
+                        ctx.arc(canvas.width/3,canvas.height/5,20,0,2*Math.PI);
+                        ctx.stroke();
+                        ctx.fill();
+                        break;
+                    
+                    // 3
+                    case 3:
+                        ctx.beginPath();
+                        ctx.arc(canvas.width/2.4,canvas.height/5,15,0,2*Math.PI);
+                        ctx.stroke();
+                        ctx.fill();
+                        break;
+
+                    // 4
+                    case 4:
+                        ctx.beginPath();
+                        ctx.arc(canvas.width/2,canvas.height/5,15,0,2*Math.PI);
+                        ctx.stroke();
+                        ctx.fill();
+                        break;
+
+                    // 5
+                    case 5:
+                         ctx.beginPath();
+                        ctx.arc(canvas.width/1.74,canvas.height/5,15,0,2*Math.PI);
+                        ctx.stroke();
+                        ctx.fill();
+                        break;
+
+                    // 6
+                    case 6:
+                        ctx.beginPath();
+                        ctx.arc(canvas.width/1.54,canvas.height/5,15,0,2*Math.PI);
+                        ctx.stroke();
+                        ctx.fill();
+                        break;
+                    
+                    // 7
+                    case 7:
+                        ctx.beginPath();
+                        ctx.arc(canvas.width/1.37,canvas.height/5,15,0,2*Math.PI);
+                        ctx.stroke();
+                        ctx.fill();
+                        break;
+                    default: 
+                        console.log(${response.response});
+                        }
+                    </script>`
+            },
+            choices: [],
+            timing_response: 1000,
+            response_ends_trial: false
+        }
+        timeline.push(breakTrial);
     })
 
 
     let endmessage = `Thank you for participating! Your completion code is ${participantID}. Copy and paste this in 
         MTurk to get paid. If you have any questions or comments, please email jsulik@wisc.edu.`
 
+    // an array of paths to images that need to be loaded
+    images.push('img/scale.png');
+    images.push('img/scale1.jpg'), 
+    images.push('img/scale2.jpg'), 
+    images.push('img/scale3.jpg'), 
+    images.push('img/scale4.jpg'), 
+    images.push('img/scale5.jpg'), 
+    images.push('img/scale6.jpg'), 
+    images.push('img/scale7.jpg');
 
-    jsPsych.init({
-        default_iti: 0,
-        timeline: timeline,
-        // fullscreen: true,
-        on_finish: function (data) {
-            jsPsych.endExperiment(endmessage);
-        }
-    });
+    jsPsych.pluginAPI.preloadImages(images, function(){ startExperiment(); });
+
+    function startExperiment() {
+        jsPsych.init({
+            default_iti: 0,
+            timeline: timeline,
+            // fullscreen: true,
+            on_finish: function (data) {
+                jsPsych.endExperiment(endmessage);
+            }
+        });
+    }
 }
