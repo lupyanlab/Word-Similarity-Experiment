@@ -65,10 +65,10 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
         // Picture Trial
         let pictureTrial = {
             type: 'single-stim',
-            stimulus: `<img src="stims/${trial.pic1}.jpg" alt="${trial.pic1}" height="200px" align="left" style="max-width:400px"/> 
-            <img src="stims/${trial.pic2}.jpg" alt="${trial.pic2}" height="200px" align="right" style="max-width:400px" />`,
+            stimulus: `<img src="stims/${trial.pic1}.jpg" alt="${trial.pic1}" height="200px" align="left" style="max-width:400px;max-height:50%;"/> 
+            <img src="stims/${trial.pic2}.jpg" alt="${trial.pic2}" height="200px" align="right" style="max-width:400px;max-height:50%;" />`,
             is_html: true,
-            prompt: `<div style="position:absolute;bottom:0;width:100%;">
+            prompt: `<div style="position:absolute;bottom:0;width:100%;max-height:50%;">
             <h1 style="text-align:center;line-height:1.5;">How similar in appearance are these two drawings?</h1>
             <canvas id="canvas"></canvas>
             </div>
