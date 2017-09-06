@@ -125,7 +125,7 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
 
                 // POST response data to server
                 $.ajax({
-                    url: '/data',
+                    url: location.host+'/data',
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify(response),
