@@ -16,6 +16,20 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 app.set('port', (process.env.PORT || 7070))
 
+/**
+ * Allow cross origin to access our /public directory from any site.
+ * Make sure this header option is defined before defining of static path to /public directory
+ */
+expressApp.use('/public',function(req, res, next) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    // Request headers you wish to allow
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    // Set to true if you need the website to include cookies in the requests sent
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    // Pass to next layer of middleware
+    next();
+});
+
 // For Rendering HTML
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname + '/dev/index.html'));
