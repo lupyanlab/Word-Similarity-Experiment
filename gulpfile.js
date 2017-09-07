@@ -6,7 +6,7 @@ gulp.task('default', function() {
 })
 
 gulp.task('copy', function() {
-    gulp.src(['dev/**/*','!dev/index.html'])
+    gulp.src(['dev/**/*','!dev/index.html','!dev/dev.js'])
         .pipe(gulp.dest('prod'));
 })
 
