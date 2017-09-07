@@ -10,7 +10,7 @@ gulp.task('copy', function() {
         .pipe(gulp.dest('prod'));
 })
 
-gulp.task('prod', ['copy'], function() {
+gulp.task('prod', function() {
     gulp.src('dev/index.html')
         .pipe(htmlreplace({
             'js': 'prod.js'
