@@ -35,7 +35,7 @@ app.use(function (req, res, next) {
     // Pass to next layer of middleware
     next();
 });
-
+  
 // For Rendering HTML
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname + '/dev/index.html'));

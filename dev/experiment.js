@@ -95,34 +95,15 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
                 ctx.fillStyle = "red";
                 ctx.strokeStyle = "black";
                 ctx.lineWidth = 3;
-                ctx.beginPath();
-                ctx.arc(canvas.width/3.85,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-                ctx.beginPath();
-                ctx.arc(canvas.width/2.96,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-                ctx.beginPath();
-                ctx.arc(canvas.width/2.4,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-                ctx.beginPath();
-                ctx.arc(canvas.width/2,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-                    ctx.beginPath();
-                ctx.arc(canvas.width/1.74,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-                ctx.beginPath();
-                ctx.arc(canvas.width/1.54,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-                ctx.beginPath();
-                ctx.arc(canvas.width/1.37,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
+                var xCoords = [208,270,333,400,459,519,584];
+                var yCoord = canvas.height/5;
+                strokeCircle(xCoords[0], yCoord);
+                strokeCircle(xCoords[1], yCoord);
+                strokeCircle(xCoords[2], yCoord);
+                strokeCircle(xCoords[3], yCoord);
+                strokeCircle(xCoords[4], yCoord);
+                strokeCircle(xCoords[5], yCoord);
+                strokeCircle(xCoords[6], yCoord);
             </script>`
                     ,
             choices: ['1', '2', '3', '4', '5', '6', '7'],
@@ -174,93 +155,21 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
                         ctx.fillStyle = "red";
                         ctx.strokeStyle = "black";
                         ctx.lineWidth = 3;
-                        ctx.beginPath();
-                ctx.arc(canvas.width/3.85,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-                ctx.beginPath();
-                ctx.arc(canvas.width/2.96,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-                ctx.beginPath();
-                ctx.arc(canvas.width/2.4,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-                ctx.beginPath();
-                ctx.arc(canvas.width/2,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-                    ctx.beginPath();
-                ctx.arc(canvas.width/1.74,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-                ctx.beginPath();
-                ctx.arc(canvas.width/1.54,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-                ctx.beginPath();
-                ctx.arc(canvas.width/1.37,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
+                        
+                        var xCoords = [208,270,333,400,459,519,584];
+                        var yCoord = canvas.height/5;
+                        strokeCircle(xCoords[0], yCoord);
+                        strokeCircle(xCoords[1], yCoord);
+                        strokeCircle(xCoords[2], yCoord);
+                        strokeCircle(xCoords[3], yCoord);
+                        strokeCircle(xCoords[4], yCoord);
+                        strokeCircle(xCoords[5], yCoord);
+                        strokeCircle(xCoords[6], yCoord);
 
-                        switch(${response.response}) {
-                    case 1:
-                    // 1
                         ctx.beginPath();
-                        ctx.arc(canvas.width/3.85,canvas.height/5,15,0,2*Math.PI);
+                        ctx.arc(xCoords[${response.response-1}],yCoord,15,0,2*Math.PI);
                         ctx.stroke();
                         ctx.fill();
-                        break;
-                    // 2
-                    case 2:
-                        ctx.beginPath();
-                        ctx.arc(canvas.width/2.96,canvas.height/5,15,0,2*Math.PI);
-                        ctx.stroke();
-                        ctx.fill();
-                        break;
-                    
-                    // 3
-                    case 3:
-                        ctx.beginPath();
-                        ctx.arc(canvas.width/2.4,canvas.height/5,15,0,2*Math.PI);
-                        ctx.stroke();
-                        ctx.fill();
-                        break;
-
-                    // 4
-                    case 4:
-                        ctx.beginPath();
-                        ctx.arc(canvas.width/2,canvas.height/5,15,0,2*Math.PI);
-                        ctx.stroke();
-                        ctx.fill();
-                        break;
-
-                    // 5
-                    case 5:
-                         ctx.beginPath();
-                        ctx.arc(canvas.width/1.74,canvas.height/5,15,0,2*Math.PI);
-                        ctx.stroke();
-                        ctx.fill();
-                        break;
-
-                    // 6
-                    case 6:
-                        ctx.beginPath();
-                        ctx.arc(canvas.width/1.54,canvas.height/5,15,0,2*Math.PI);
-                        ctx.stroke();
-                        ctx.fill();
-                        break;
-                    
-                    // 7
-                    case 7:
-                        ctx.beginPath();
-                        ctx.arc(canvas.width/1.37,canvas.height/5,15,0,2*Math.PI);
-                        ctx.stroke();
-                        ctx.fill();
-                        break;
-                    default: 
-                        console.log(${response.response});
-                        }
                     </script>`
             },
             choices: [],

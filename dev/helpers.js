@@ -17,6 +17,13 @@ function condition_instructions () {
     }
 };
 
+function strokeCircle (x, y) {
+    ctx.beginPath();
+    ctx.arc(x,y,15,0,2*Math.PI);
+    ctx.stroke();
+    ctx.closePath();
+}
+
 CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
   if (w < 2 * r) r = w / 2;
   if (h < 2 * r) r = h / 2;
