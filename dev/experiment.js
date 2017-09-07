@@ -85,12 +85,10 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
             <h1 style="text-align:center;line-height:1.5;">How similar in appearance are these two drawings?</h1>
                 <div id="container">
                     <img id="scale" src="img/scale.jpg" width="100%" />
-                    <canvas id="canvas"></canvas>
+                    <canvas id="canvas" width="800px" height="138.97px"></canvas>
                 </div>
             </div>
             <script>var canvas = document.getElementById('canvas');
-                canvas.width = 800;
-                canvas.height = 138.97;
                 var ctx = canvas.getContext('2d');
                 ctx.fillStyle = "red";
                 ctx.strokeStyle = "black";
@@ -144,13 +142,11 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
                 return `<div style="position:absolute;bottom:0;width:100%;">
                     <h1 style="text-align:center;line-height:1.5;">How similar in appearance are these two drawings?</h1>
                         <img id="scale" src="img/scale.jpg" width="100%" />
-                         <canvas id="canvas"></canvas>
+                         <canvas id="canvas" width="800px" height="138.97px"></canvas>
                     </div>
                     <script>
 
                         var canvas = document.getElementById('canvas');
-                        canvas.width = 800;
-                        canvas.height = 138.97;
                         var ctx = canvas.getContext('2d');
                         ctx.fillStyle = "red";
                         ctx.strokeStyle = "black";
