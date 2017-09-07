@@ -42,7 +42,8 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
     timeline.push(instructions);
 
     let trial_number = 1;
-    let images = []
+    let images = [];
+    let num_trials = trials.length;
 
     // Pushes each audio trial to timeline
     _.forEach(trials, (trial) => {
@@ -62,14 +63,22 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
             country2: trial.country2 || 'unspecified',
             expTimer : -1,
             response: -1,
-            trial_number: trial_number++,
+            trial_number: trial_number,
             rt: -1,
         }	
 
         // Picture Trial
         let pictureTrial = {
             type: 'single-stim',
-            stimulus: `<img src="stims/${trial.pic1}.jpg" alt="${trial.pic1}" height="200px" align="left" style="max-width:400px"/> 
+            stimulus: `<canvas width="800px" height="25px" id="bar"></canvas>
+            <script>
+                var barCanvas = document.getElementById('bar');
+                var barCtx = barCanvas.getContext('2d');
+                barCtx.roundRect(0, 0, barCanvas.width, barCanvas.height, 20).stroke();
+                barCtx.roundRect(0, 0, barCanvas.width*${trial_number}/${num_trials}, barCanvas.height, 20).fill();
+            </script>
+            <h5 style="text-align:center;">Trial ${trial_number} of ${num_trials}</h5>
+            <img src="stims/${trial.pic1}.jpg" alt="${trial.pic1}" height="200px" align="left" style="max-width:400px"/> 
             <img src="stims/${trial.pic2}.jpg" alt="${trial.pic2}" height="200px" align="right" style="max-width:400px" />`,
             is_html: true,
             prompt: `<div style="position:absolute;bottom:0;width:100%;">
@@ -79,8 +88,7 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
                     <canvas id="canvas"></canvas>
                 </div>
             </div>
-            <script>
-                var canvas = document.getElementById('canvas');
+            <script>var canvas = document.getElementById('canvas');
                 canvas.width = 800;
                 canvas.height = 138.97;
                 var ctx = canvas.getContext('2d');
@@ -140,7 +148,15 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
         // let subject view their choice
         let breakTrial = {
             type: 'single-stim',
-            stimulus: `<img src="stims/${trial.pic1}.jpg" alt="${trial.pic1}" height="200px" align="left" style="max-width:400px"/> 
+            stimulus: `<canvas width="800px" height="25px" id="bar"></canvas>
+            <script>
+                var barCanvas = document.getElementById('bar');
+                var barCtx = barCanvas.getContext('2d');
+                barCtx.roundRect(0, 0, barCanvas.width, barCanvas.height, 20).stroke();
+                barCtx.roundRect(0, 0, barCanvas.width*${trial_number}/${num_trials}, barCanvas.height, 20).fill();
+            </script>
+            <h5 style="text-align:center;">Trial ${trial_number} of ${num_trials}</h5>
+            <img src="stims/${trial.pic1}.jpg" alt="${trial.pic1}" height="200px" align="left" style="max-width:400px"/> 
             <img src="stims/${trial.pic2}.jpg" alt="${trial.pic2}" height="200px" align="right" style="max-width:400px" />`,
             is_html: true,
             prompt: function () { 
@@ -150,6 +166,7 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
                          <canvas id="canvas"></canvas>
                     </div>
                     <script>
+
                         var canvas = document.getElementById('canvas');
                         canvas.width = 800;
                         canvas.height = 138.97;
@@ -251,6 +268,8 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
             response_ends_trial: false
         }
         timeline.push(breakTrial);
+
+        trial_number++;
     })
 
 
@@ -273,7 +292,8 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
         jsPsych.init({
             default_iti: 0,
             timeline: timeline,
-            fullscreen: true,
+            // fullscreen: true,
+            show_progress_bar: true,
             on_finish: function (data) {
                 jsPsych.endExperiment(endmessage);
             }
