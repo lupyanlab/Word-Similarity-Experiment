@@ -30,3 +30,14 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
   return this;
 }
 
+// For parsing url params
+$.urlParam = function(name){
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results==null){
+        return null;
+    }
+    else{
+        return decodeURI(results[1]) || 0;
+    }
+}
+
