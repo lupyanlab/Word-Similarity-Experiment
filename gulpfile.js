@@ -6,14 +6,15 @@ gulp.task('default', function() {
 })
 
 gulp.task('copy', function() {
-    gulp.src('dev/*')
+    gulp.src('dev/**/*')
         .pipe(gulp.dest('prod'));
 })
 
 gulp.task('prod', function() {
     gulp.src('dev/index.html')
         .pipe(htmlreplace({
-            'js': 'prod.js'
+            'js': 'prod.js',
+            'form': ''
         }))
         .pipe(gulp.dest('prod'));
 })

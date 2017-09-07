@@ -38,9 +38,9 @@ app.use(function (req, res, next) {
 
 // For Rendering HTML
 app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname + '/dev/index.html'));
+  res.sendFile(path.join(__dirname + '/prod/index.html'));
 })
-app.use(express.static(__dirname + '/dev'));
+app.use(express.static(__dirname + '/prod'));
 
 app.listen(app.get('port'), function () {
   console.log("Node app is running at http://localhost:" + app.get('port'))
