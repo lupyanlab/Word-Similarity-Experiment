@@ -6,11 +6,11 @@ gulp.task('default', function() {
 })
 
 gulp.task('copy', function() {
-    gulp.src('dev/**/*')
+    gulp.src(['dev/**/*','!dev/index.html'])
         .pipe(gulp.dest('prod'));
 })
 
-gulp.task('prod', function() {
+gulp.task('switchjs', function() {
     gulp.src('dev/index.html')
         .pipe(htmlreplace({
             'js': 'prod.js',
@@ -18,3 +18,5 @@ gulp.task('prod', function() {
         }))
         .pipe(gulp.dest('prod'));
 })
+
+gulp.task('prod', ['copy', 'switchjs']);
