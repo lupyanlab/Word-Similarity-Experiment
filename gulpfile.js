@@ -10,12 +10,10 @@ gulp.task('copy', function() {
         .pipe(gulp.dest('prod'));
 })
 
-gulp.task('switchjs', ['copy'], function() {
+gulp.task('prod', ['copy'], function() {
     gulp.src('dev/index.html')
         .pipe(htmlreplace({
             'js': 'prod.js'
         }))
         .pipe(gulp.dest('prod'));
 })
-
-gulp.task('prod', ['copy', 'switchjs']);

@@ -17,8 +17,7 @@
   },
   "devDependencies": {
     "gulp": "^3.9.1",
-    "gulp-html-replace": "^1.6.2",
-    "run-sequence": "^2.1.0"
+    "gulp-html-replace": "^1.6.2"
   },
   "engines": {
     "node": "4.0.0"
