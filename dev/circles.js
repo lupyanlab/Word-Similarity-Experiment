@@ -7,6 +7,5 @@ ctx.lineWidth = 3;
 
 var xCoords = [208,270,333,400,459,519,584];
 var yCoord = canvas.height/5;
-for (x of xCoords) {
+for (x of xCoords)
     strokeCircle(x, yCoord);
-}

@@ -20,3 +20,8 @@ gulp.task('switchjs', function() {
 })
 
 gulp.task('prod', ['copy', 'switchjs']);
+
+gulp.task('watch', function() {
+    gulp.watch(['dev/**/*','!dev/index.html','!dev/dev.js'], ['copy']);
+    gulp.watch('dev/index.html', ['switchjs']);
+})
