@@ -1,6 +1,6 @@
 // Function Call to Run the experiment
 function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
-    timeline = [];
+    let timeline = [];
 
     // Data that is collected for jsPsych
     let turkInfo = jsPsych.turk.turkInfo();

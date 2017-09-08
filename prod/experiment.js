@@ -1,10 +1,10 @@
 // Function Call to Run the experiment
 function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
-    timeline = [];
+    let timeline = [];
 
     // Data that is collected for jsPsych
     let turkInfo = jsPsych.turk.turkInfo();
-    let participantID = makeid() + 'iTi' + makeid()
+    let participantID = makeid()+'iTi'+makeid()
 
     jsPsych.data.addProperties({
         subject: participantID,
@@ -70,62 +70,30 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
         // Picture Trial
         let pictureTrial = {
             type: 'single-stim',
-            stimulus: `<canvas width="800px" height="25px" id="bar"></canvas>
+            is_html: true,
+            choices: ['1', '2', '3', '4', '5', '6', '7'],
+
+            stimulus: `
+            <canvas width="800px" height="25px" id="bar"></canvas>
             <script>
                 var barCanvas = document.getElementById('bar');
                 var barCtx = barCanvas.getContext('2d');
                 barCtx.roundRect(0, 0, barCanvas.width, barCanvas.height, 20).stroke();
-                barCtx.roundRect(0, 0, barCanvas.width*${trial_number}/${num_trials}, barCanvas.height, 20).fill();
+                barCtx.roundRect(0, 0, barCanvas.width*${trial_number/num_trials}, barCanvas.height, 20).fill();
             </script>
             <h5 style="text-align:center;">Trial ${trial_number} of ${num_trials}</h5>
             <img src="stims/${trial.pic1}.jpg" alt="${trial.pic1}" height="200px" align="left" style="max-width:400px"/> 
             <img src="stims/${trial.pic2}.jpg" alt="${trial.pic2}" height="200px" align="right" style="max-width:400px" />`,
-            is_html: true,
+
             prompt: `<div style="position:absolute;bottom:0;width:100%;">
             <h1 style="text-align:center;line-height:1.5;">How similar in appearance are these two drawings?</h1>
                 <div id="container">
                     <img id="scale" src="img/scale.jpg" width="100%" />
-                    <canvas id="canvas"></canvas>
+                    <canvas id="canvas" width="800px" height="138.97px"></canvas>
                 </div>
             </div>
-            <script>var canvas = document.getElementById('canvas');
-                canvas.width = 800;
-                canvas.height = 138.97;
-                var ctx = canvas.getContext('2d');
-                ctx.fillStyle = "red";
-                ctx.strokeStyle = "black";
-                ctx.lineWidth = 3;
-                ctx.beginPath();
-                ctx.arc(canvas.width/3.85,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-                ctx.beginPath();
-                ctx.arc(canvas.width/2.96,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-                ctx.beginPath();
-                ctx.arc(canvas.width/2.4,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-                ctx.beginPath();
-                ctx.arc(canvas.width/2,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-                    ctx.beginPath();
-                ctx.arc(canvas.width/1.74,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-                ctx.beginPath();
-                ctx.arc(canvas.width/1.54,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-                ctx.beginPath();
-                ctx.arc(canvas.width/1.37,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-            </script>`
-                    ,
-            choices: ['1', '2', '3', '4', '5', '6', '7'],
+            <script src="circles.js"></script>`,
+
             on_finish: function (data) {
                 response.response = String.fromCharCode(data.key_press);
                 response.rt = data.rt;
@@ -148,124 +116,37 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
         // let subject view their choice
         let breakTrial = {
             type: 'single-stim',
-            stimulus: `<canvas width="800px" height="25px" id="bar"></canvas>
+            is_html: true,
+            timing_response: 1000,
+            response_ends_trial: false,
+
+            stimulus: `
+            <canvas width="800px" height="25px" id="bar"></canvas>
             <script>
                 var barCanvas = document.getElementById('bar');
                 var barCtx = barCanvas.getContext('2d');
                 barCtx.roundRect(0, 0, barCanvas.width, barCanvas.height, 20).stroke();
-                barCtx.roundRect(0, 0, barCanvas.width*${trial_number}/${num_trials}, barCanvas.height, 20).fill();
+                barCtx.roundRect(0, 0, barCanvas.width*${trial_number/num_trials}, barCanvas.height, 20).fill();
             </script>
             <h5 style="text-align:center;">Trial ${trial_number} of ${num_trials}</h5>
             <img src="stims/${trial.pic1}.jpg" alt="${trial.pic1}" height="200px" align="left" style="max-width:400px"/> 
             <img src="stims/${trial.pic2}.jpg" alt="${trial.pic2}" height="200px" align="right" style="max-width:400px" />`,
-            is_html: true,
+
             prompt: function () { 
-                return `<div style="position:absolute;bottom:0;width:100%;">
-                    <h1 style="text-align:center;line-height:1.5;">How similar in appearance are these two drawings?</h1>
+                return `
+                    <div style="position:absolute;bottom:0;width:100%;">
+                        <h1 style="text-align:center;line-height:1.5;">How similar in appearance are these two drawings?</h1>
                         <img id="scale" src="img/scale.jpg" width="100%" />
-                         <canvas id="canvas"></canvas>
+                        <canvas id="canvas" width="800px" height="138.97px"></canvas>
                     </div>
+                    <script src="circles.js"></script>
                     <script>
-
-                        var canvas = document.getElementById('canvas');
-                        canvas.width = 800;
-                        canvas.height = 138.97;
-                        var ctx = canvas.getContext('2d');
-                        ctx.fillStyle = "red";
-                        ctx.strokeStyle = "black";
-                        ctx.lineWidth = 3;
                         ctx.beginPath();
-                ctx.arc(canvas.width/3.85,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-                ctx.beginPath();
-                ctx.arc(canvas.width/2.96,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-                ctx.beginPath();
-                ctx.arc(canvas.width/2.4,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-                ctx.beginPath();
-                ctx.arc(canvas.width/2,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-                    ctx.beginPath();
-                ctx.arc(canvas.width/1.74,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-                ctx.beginPath();
-                ctx.arc(canvas.width/1.54,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-                ctx.beginPath();
-                ctx.arc(canvas.width/1.37,canvas.height/5,15,0,2*Math.PI);
-                ctx.stroke();
-                ctx.closePath();
-
-                        switch(${response.response}) {
-                    case 1:
-                    // 1
-                        ctx.beginPath();
-                        ctx.arc(canvas.width/3.85,canvas.height/5,15,0,2*Math.PI);
+                        ctx.arc(xCoords[${response.response-1}],yCoord,15,0,2*Math.PI);
                         ctx.stroke();
                         ctx.fill();
-                        break;
-                    // 2
-                    case 2:
-                        ctx.beginPath();
-                        ctx.arc(canvas.width/2.96,canvas.height/5,15,0,2*Math.PI);
-                        ctx.stroke();
-                        ctx.fill();
-                        break;
-                    
-                    // 3
-                    case 3:
-                        ctx.beginPath();
-                        ctx.arc(canvas.width/2.4,canvas.height/5,15,0,2*Math.PI);
-                        ctx.stroke();
-                        ctx.fill();
-                        break;
-
-                    // 4
-                    case 4:
-                        ctx.beginPath();
-                        ctx.arc(canvas.width/2,canvas.height/5,15,0,2*Math.PI);
-                        ctx.stroke();
-                        ctx.fill();
-                        break;
-
-                    // 5
-                    case 5:
-                         ctx.beginPath();
-                        ctx.arc(canvas.width/1.74,canvas.height/5,15,0,2*Math.PI);
-                        ctx.stroke();
-                        ctx.fill();
-                        break;
-
-                    // 6
-                    case 6:
-                        ctx.beginPath();
-                        ctx.arc(canvas.width/1.54,canvas.height/5,15,0,2*Math.PI);
-                        ctx.stroke();
-                        ctx.fill();
-                        break;
-                    
-                    // 7
-                    case 7:
-                        ctx.beginPath();
-                        ctx.arc(canvas.width/1.37,canvas.height/5,15,0,2*Math.PI);
-                        ctx.stroke();
-                        ctx.fill();
-                        break;
-                    default: 
-                        console.log(${response.response});
-                        }
                     </script>`
-            },
-            choices: [],
-            timing_response: 1000,
-            response_ends_trial: false
+            }
         }
         timeline.push(breakTrial);
 
@@ -276,15 +157,10 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
     let endmessage = `Thank you for participating! Your completion code is ${participantID}. Copy and paste this in 
         MTurk to get paid. If you have any questions or comments, please email jsulik@wisc.edu.`
 
-    // an array of paths to images that need to be loaded
+    // add scale pic paths to images that need to be loaded
     images.push('img/scale.png');
-    images.push('img/scale1.jpg'), 
-    images.push('img/scale2.jpg'), 
-    images.push('img/scale3.jpg'), 
-    images.push('img/scale4.jpg'), 
-    images.push('img/scale5.jpg'), 
-    images.push('img/scale6.jpg'), 
-    images.push('img/scale7.jpg');
+    for (let i = 1; i <= 7; i++)
+        images.push('img/scale'+i+'.jpg');
 
     jsPsych.pluginAPI.preloadImages(images, function(){ startExperiment(); });
 
