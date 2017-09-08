@@ -168,7 +168,7 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
         jsPsych.init({
             default_iti: 0,
             timeline: timeline,
-            // fullscreen: true,
+            fullscreen: true,
             show_progress_bar: true,
             on_finish: function (data) {
                 jsPsych.endExperiment(endmessage);
