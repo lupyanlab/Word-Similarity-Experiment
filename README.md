@@ -11,7 +11,7 @@ npm start
 ```
 
 When making changes, the html and javascript is in the dev/ directory. To make sure the prod/ (production) directory is
-updated while editing the dev/ directory, install gulp taskrunner globally and run the gulp watch command.
+updated while editing the dev/ directory, install gulp taskrunner globally and run the gulp watch command. 
 
 ```
 sudo npm install -g gulp
