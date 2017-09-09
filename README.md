@@ -18,4 +18,14 @@ sudo npm install -g gulp
 gulp watch
 ```
 
+If you just need to build prod/ , then just call either of these commands:
+
+```
+gulp prod
+```
+
+```
+npm prod
+```
+
 Then, go to http://localhost:7070
