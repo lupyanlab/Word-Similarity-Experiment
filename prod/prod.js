@@ -1,18 +1,15 @@
 $(document).ready(function(){
 
-    // This listens to the form on-submit action
-    $("form").submit(function(){    // Remove
-
+    
 
         //////////////////////////////////////////
         // DEFINE workerId, hitId, assignmentId HERE
         //////////////////////////////////////////
-        let subjCode = $("#subjCode").val().slice();
+        let subjCode = $.urlParam('workerId') || 'unknown';
         let workerId = 'workerId';
         let assignmentId = 'assignmentId';
         let hitId = 'hitId';
 
-        $("form").remove();
         $("#loading").html('Loading trials... please wait. </br> <img src="img/preloader.gif">')
 
         // This calls server to run python generate trials (judements.py) script
@@ -29,7 +26,6 @@ $(document).ready(function(){
                 runExperiment(data.trials, subjCode, workerId, assignmentId, hitId);
             }
         })
-    }); // Remove
     
 
 });

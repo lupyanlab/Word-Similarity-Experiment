@@ -6,14 +6,22 @@ gulp.task('default', function() {
 })
 
 gulp.task('copy', function() {
-    gulp.src('dev/*')
+    gulp.src(['dev/**/*','!dev/index.html','!dev/dev.js'])
         .pipe(gulp.dest('prod'));
 })
 
-gulp.task('prod', ['copy'], function() {
+gulp.task('switchjs', function() {
     gulp.src('dev/index.html')
         .pipe(htmlreplace({
-            'js': 'prod.js'
+            'js': 'prod.js',
+            'form': ''
         }))
         .pipe(gulp.dest('prod'));
+})
+
+gulp.task('prod', ['copy', 'switchjs']);
+
+gulp.task('watch', ['copy', 'switchjs'], function() {
+    gulp.watch(['dev/**/*','!dev/index.html','!dev/dev.js'], ['copy']);
+    gulp.watch('dev/index.html', ['switchjs']);
 })
