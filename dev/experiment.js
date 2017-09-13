@@ -82,7 +82,7 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
 
         let prompt = `
         <div style="position:absolute;bottom:20%;width:100%;">
-        <h2 style="text-align:center;line-height:1.5;">How similar in appearance are these two drawings?</h2>
+        <h2 style="text-align:center;line-height:1.5;">How similar are these two words?</h2>
             <div id="container">
                 <img id="scale" src="img/scale.jpg" width="100%" />
                 <canvas id="canvas" width="800px" height="138.97px"></canvas>
