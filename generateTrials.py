@@ -14,5 +14,5 @@ picNames = stims['picName'].tolist()
 allPairs = combinations(picNames,2)
 numStims = 120
 pairs=list(random_combination(allPairs,numStims))
-df = pd.DataFrame.from_records(pairs, index=None, exclude=None, columns=('pic1','pic2'), nrows=None)
+df = pd.DataFrame.from_records(pairs, index=None, exclude=None, columns=('word1','word2'), nrows=None)
 df.to_csv("trials/"+str(sys.argv[1])+"_trials.csv",index=False)

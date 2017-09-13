@@ -28,4 +28,4 @@ gulp prod
 npm prod
 ```
 
-Then, go to http://localhost:7070
+Then, go to http://localhost:7071
