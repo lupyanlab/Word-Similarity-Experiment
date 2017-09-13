@@ -92,7 +92,7 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
         `;
 
         // Picture Trial
-        let pictureTrial = {
+        let wordTrial = {
             type: 'single-stim',
             is_html: true,
             choices: ['1', '2', '3', '4', '5', '6', '7'],
@@ -118,7 +118,7 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
                 })
             }
         }
-        timeline.push(pictureTrial);
+        timeline.push(wordTrial);
 
         // let subject view their choice
         let breakTrial = {
