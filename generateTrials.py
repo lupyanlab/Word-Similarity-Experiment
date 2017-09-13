@@ -10,7 +10,7 @@ def random_combination(iterable, r):
 	return tuple(pool[i] for i in indices)
 
 stims = pd.read_csv('allStims.txt',sep="\t")
-picNames = stims['picName'].tolist()
+picNames = stims['word'].tolist()
 allPairs = combinations(picNames,2)
 numStims = 120
 pairs=list(random_combination(allPairs,numStims))

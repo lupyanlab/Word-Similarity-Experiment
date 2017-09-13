@@ -1,4 +1,4 @@
-picName
+word
 anvil
 apricot
 artichoke
