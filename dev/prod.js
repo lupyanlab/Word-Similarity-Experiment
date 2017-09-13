@@ -17,7 +17,7 @@ $(document).ready(function(){
         // This calls server to run python generate trials (judements.py) script
         // Then passes the generated trials to the experiment
         $.ajax({
-            url: 'http://'+document.domain+':7070/trials',
+            url: 'http://'+document.domain+':'+PORT+'/trials',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({subjCode: subjCode}),
