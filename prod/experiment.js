@@ -48,8 +48,6 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
     // Pushes each audio trial to timeline
     _.forEach(trials, (trial) => {
 
-        images.push('stims/'+trial.pic1+'.jpg');
-        images.push('stims/'+trial.pic2+'.jpg');
         
         // Empty Response Data to be sent to be collected
         let response = {
@@ -57,8 +55,8 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
             workerId: workerId,
             assignmentId: assignmentId,
             hitId: hitId,
-            pic1: trial.pic1,
-            pic2: trial.pic2,
+            word1: trial.word1,
+            word2: trial.word2,
             country1: trial.country1 || 'unspecified',
             country2: trial.country2 || 'unspecified',
             expTimer : -1,
@@ -82,11 +80,14 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
                 barCtx.roundRect(0, 0, barCanvas.width*${trial_number/num_trials}, barCanvas.height, 20).fill();
             </script>
             <h5 style="text-align:center;">Trial ${trial_number} of ${num_trials}</h5>
-            <img src="stims/${trial.pic1}.jpg" alt="${trial.pic1}" height="200px" align="left" style="max-width:400px"/> 
-            <img src="stims/${trial.pic2}.jpg" alt="${trial.pic2}" height="200px" align="right" style="max-width:400px" />`,
+            <div style="clear: both;top:25%;width:100%;position: absolute;">
+                <h1 style="text-align:center;float:left;width:50%;">${trial.word1}</h1>
+                <h1 style="text-align:center;float:right;width:50%;">${trial.word2}</h1>
+            </div>
+            `,
 
-            prompt: `<div style="position:absolute;bottom:0;width:100%;">
-            <h1 style="text-align:center;line-height:1.5;">How similar in appearance are these two drawings?</h1>
+            prompt: `<div style="position:absolute;bottom:20%;width:100%;">
+            <h2 style="text-align:center;line-height:1.5;">How similar in appearance are these two drawings?</h2>
                 <div id="container">
                     <img id="scale" src="img/scale.jpg" width="100%" />
                     <canvas id="canvas" width="800px" height="138.97px"></canvas>
@@ -101,7 +102,7 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
 
                 // POST response data to server
                 $.ajax({
-                    url: 'http://'+document.domain+':7070/data',
+                    url: 'http://'+document.domain+':'+PORT+'/data',
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify(response),
@@ -129,13 +130,16 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
                 barCtx.roundRect(0, 0, barCanvas.width*${trial_number/num_trials}, barCanvas.height, 20).fill();
             </script>
             <h5 style="text-align:center;">Trial ${trial_number} of ${num_trials}</h5>
-            <img src="stims/${trial.pic1}.jpg" alt="${trial.pic1}" height="200px" align="left" style="max-width:400px"/> 
-            <img src="stims/${trial.pic2}.jpg" alt="${trial.pic2}" height="200px" align="right" style="max-width:400px" />`,
+            <div style="clear: both;top:25%;width:100%;position: absolute;">
+                <h1 style="text-align:center;float:left;width:50%;">${trial.word1}</h1>
+                <h1 style="text-align:center;float:right;width:50%;">${trial.word2}</h1>
+            </div>
+            `,
 
             prompt: function () { 
                 return `
-                    <div style="position:absolute;bottom:0;width:100%;">
-                        <h1 style="text-align:center;line-height:1.5;">How similar in appearance are these two drawings?</h1>
+                    <div style="position:absolute;bottom:20%;width:100%;">
+                        <h2 style="text-align:center;line-height:1.5;">How similar in appearance are these two drawings?</h2>
                         <img id="scale" src="img/scale.jpg" width="100%" />
                         <canvas id="canvas" width="800px" height="138.97px"></canvas>
                     </div>
@@ -168,7 +172,7 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
         jsPsych.init({
             default_iti: 0,
             timeline: timeline,
-            fullscreen: true,
+            fullscreen: FULLSCREEN,
             show_progress_bar: true,
             on_finish: function (data) {
                 jsPsych.endExperiment(endmessage);
