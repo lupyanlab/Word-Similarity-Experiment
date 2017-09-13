@@ -65,35 +65,41 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
             rt: -1,
         }	
 
+        let stimulus = `
+        <canvas width="800px" height="25px" id="bar"></canvas>
+        <script>
+            var barCanvas = document.getElementById('bar');
+            var barCtx = barCanvas.getContext('2d');
+            barCtx.roundRect(0, 0, barCanvas.width, barCanvas.height, 20).stroke();
+            barCtx.roundRect(0, 0, barCanvas.width*${trial_number/num_trials}, barCanvas.height, 20).fill();
+        </script>
+        <h5 style="text-align:center;">Trial ${trial_number} of ${num_trials}</h5>
+        <div style="clear: both;top:25%;width:100%;position: absolute;">
+            <h1 style="text-align:center;float:left;width:50%;">${trial.word1}</h1>
+            <h1 style="text-align:center;float:right;width:50%;">${trial.word2}</h1>
+        </div>
+        `;
+
+        let prompt = `
+        <div style="position:absolute;bottom:20%;width:100%;">
+        <h2 style="text-align:center;line-height:1.5;">How similar in appearance are these two drawings?</h2>
+            <div id="container">
+                <img id="scale" src="img/scale.jpg" width="100%" />
+                <canvas id="canvas" width="800px" height="138.97px"></canvas>
+            </div>
+        </div>
+        <script src="circles.js"></script>
+        `;
+
         // Picture Trial
         let pictureTrial = {
             type: 'single-stim',
             is_html: true,
             choices: ['1', '2', '3', '4', '5', '6', '7'],
 
-            stimulus: `
-            <canvas width="800px" height="25px" id="bar"></canvas>
-            <script>
-                var barCanvas = document.getElementById('bar');
-                var barCtx = barCanvas.getContext('2d');
-                barCtx.roundRect(0, 0, barCanvas.width, barCanvas.height, 20).stroke();
-                barCtx.roundRect(0, 0, barCanvas.width*${trial_number/num_trials}, barCanvas.height, 20).fill();
-            </script>
-            <h5 style="text-align:center;">Trial ${trial_number} of ${num_trials}</h5>
-            <div style="clear: both;top:25%;width:100%;position: absolute;">
-                <h1 style="text-align:center;float:left;width:50%;">${trial.word1}</h1>
-                <h1 style="text-align:center;float:right;width:50%;">${trial.word2}</h1>
-            </div>
-            `,
+            stimulus: stimulus,
 
-            prompt: `<div style="position:absolute;bottom:20%;width:100%;">
-            <h2 style="text-align:center;line-height:1.5;">How similar in appearance are these two drawings?</h2>
-                <div id="container">
-                    <img id="scale" src="img/scale.jpg" width="100%" />
-                    <canvas id="canvas" width="800px" height="138.97px"></canvas>
-                </div>
-            </div>
-            <script src="circles.js"></script>`,
+            prompt: prompt,
 
             on_finish: function (data) {
                 response.response = String.fromCharCode(data.key_press);
@@ -121,35 +127,17 @@ function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
             timing_response: 1000,
             response_ends_trial: false,
 
-            stimulus: `
-            <canvas width="800px" height="25px" id="bar"></canvas>
-            <script>
-                var barCanvas = document.getElementById('bar');
-                var barCtx = barCanvas.getContext('2d');
-                barCtx.roundRect(0, 0, barCanvas.width, barCanvas.height, 20).stroke();
-                barCtx.roundRect(0, 0, barCanvas.width*${trial_number/num_trials}, barCanvas.height, 20).fill();
-            </script>
-            <h5 style="text-align:center;">Trial ${trial_number} of ${num_trials}</h5>
-            <div style="clear: both;top:25%;width:100%;position: absolute;">
-                <h1 style="text-align:center;float:left;width:50%;">${trial.word1}</h1>
-                <h1 style="text-align:center;float:right;width:50%;">${trial.word2}</h1>
-            </div>
-            `,
+            stimulus: stimulus,
 
             prompt: function () { 
-                return `
-                    <div style="position:absolute;bottom:20%;width:100%;">
-                        <h2 style="text-align:center;line-height:1.5;">How similar in appearance are these two drawings?</h2>
-                        <img id="scale" src="img/scale.jpg" width="100%" />
-                        <canvas id="canvas" width="800px" height="138.97px"></canvas>
-                    </div>
-                    <script src="circles.js"></script>
+                return prompt + `
                     <script>
                         ctx.beginPath();
                         ctx.arc(xCoords[${response.response-1}],yCoord,15,0,2*Math.PI);
                         ctx.stroke();
                         ctx.fill();
-                    </script>`
+                    </script>
+                    `;
             }
         }
         timeline.push(breakTrial);

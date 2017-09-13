@@ -570,3 +570,5 @@ subjCode,workerId,assignmentId,hitId,apricot,polarbear,unspecified,unspecified,4
 subjCode,workerId,assignmentId,hitId,apricot,tank,unspecified,unspecified,5.87,4,3,351
 subjCode,workerId,assignmentId,hitId,artichoke,lobster,unspecified,unspecified,7.317,3,4,394
 subjCode,workerId,assignmentId,hitId,avocado,blueberries,unspecified,unspecified,8.602,2,5,258
+subjCode,workerId,assignmentId,hitId,anvil,banana,unspecified,unspecified,5.244,1,1,1925
+subjCode,workerId,assignmentId,hitId,anvil,lobster,unspecified,unspecified,6.582,2,2,301
